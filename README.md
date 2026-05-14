@@ -148,7 +148,7 @@ flutter test
 
 ## About me
 
-I'm Ilya, a junior Flutter developer with ~3 years of practice and ~1 year of client work. FocusFlow is my second published-style Flutter app.
+I'm Bagh Nour, a junior Flutter developer with ~3 years of practice and ~1 year of client work. FocusFlow is my second published-style Flutter app.
 
 - GitHub: https://github.com/nourbagh0-star
 - Published: [Notes App on RuStore](https://www.rustore.ru/catalog/app/com.example.notes_app) — offline-first note-taking, Hive-backed
