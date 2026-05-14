@@ -1,5 +1,7 @@
 # FocusFlow
 
+[![Build](https://github.com/nourbagh0-star/FocusFlow/actions/workflows/build.yml/badge.svg)](https://github.com/nourbagh0-star/FocusFlow/actions/workflows/build.yml)
+
 A Pomodoro timer with a free tier and a Pro subscription tier. Portfolio project demonstrating Clean Architecture, BLoC/Cubit, Hive persistence, and `in_app_purchase` integration in Flutter.
 
 ## Screenshots
