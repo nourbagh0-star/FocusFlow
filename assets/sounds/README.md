@@ -1,16 +1,20 @@
 # Sound assets
 
-Drop a short notification-bell `.mp3` here as `bell.mp3`.
+`bell.mp3` is the completion sound played by `AudioService.playCompletionSound()`
+when a Pomodoro phase finishes.
 
-The free-tier completion sound plays via `AudioService.playCompletionSound()`,
-which loads `assets/sounds/bell.mp3`. If the file is missing, the timer still
-works — `AudioService` swallows the exception silently.
+**Current asset:** "Alert bells echo" by Mixkit (royalty-free, free for
+commercial and personal use — https://mixkit.co/free-sound-effects/bell/).
 
-Suggested sources for royalty-free notification sounds:
-- https://freesound.org (filter by Creative Commons 0)
-- https://pixabay.com/sound-effects/
+Replace `bell.mp3` with another short `.mp3` if you'd like — the app loads
+whichever file lives at this path. If the file is missing, the timer still
+works; `AudioService` swallows the load error silently.
 
-Recommended characteristics:
+Recommended characteristics for a replacement:
 - Duration: 0.5–2 seconds
 - Format: MP3, 44.1 kHz, mono or stereo
 - Volume: pre-normalized to ~-6 dB
+
+Other royalty-free sources:
+- https://freesound.org (filter by Creative Commons 0)
+- https://pixabay.com/sound-effects/
