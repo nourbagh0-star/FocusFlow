@@ -5,7 +5,6 @@ import 'package:focus_flow/app/di/injection.dart';
 import 'package:focus_flow/app/router/app_router.dart';
 import 'package:focus_flow/core/theme/app_theme.dart';
 import 'package:focus_flow/features/settings/presentation/cubit/settings_cubit.dart';
-import 'package:focus_flow/features/subscription/presentation/cubit/subscription_cubit.dart';
 
 class FocusFlowApp extends StatelessWidget {
   const FocusFlowApp({super.key});
@@ -14,15 +13,6 @@ class FocusFlowApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<SubscriptionCubit>(
-          create: (_) => SubscriptionCubit(
-            getProducts: sl(),
-            purchaseProduct: sl(),
-            restorePurchases: sl(),
-            watchSubscriptionStatus: sl(),
-            watchPurchaseEvents: sl(),
-          ),
-        ),
         BlocProvider<SettingsCubit>(
           create: (_) => SettingsCubit(
             getAppSettings: sl(),

@@ -3,5 +3,4 @@ class HiveBoxes {
 
   static const String sessions = 'sessions';
   static const String settings = 'settings';
-  static const String entitlement = 'entitlement';
 }

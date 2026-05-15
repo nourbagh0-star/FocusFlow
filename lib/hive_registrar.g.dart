@@ -3,19 +3,16 @@
 // Check in to version control
 
 import 'package:hive_ce/hive_ce.dart';
-import 'package:focus_flow/features/subscription/data/models/entitlement_model.dart';
 import 'package:focus_flow/features/timer/data/models/session_model.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
-    registerAdapter(EntitlementModelAdapter());
     registerAdapter(SessionModelAdapter());
   }
 }
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
-    registerAdapter(EntitlementModelAdapter());
     registerAdapter(SessionModelAdapter());
   }
 }

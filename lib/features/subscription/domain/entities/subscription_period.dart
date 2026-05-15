@@ -1,1 +1,0 @@
-enum SubscriptionPeriod { monthly, yearly }

@@ -11,8 +11,6 @@ import 'package:focus_flow/features/statistics/presentation/cubit/streak_cubit.d
 import 'package:focus_flow/features/statistics/presentation/cubit/streak_state.dart';
 import 'package:focus_flow/features/statistics/presentation/cubit/today_stats_cubit.dart';
 import 'package:focus_flow/features/statistics/presentation/cubit/today_stats_state.dart';
-import 'package:focus_flow/features/subscription/presentation/cubit/subscription_cubit.dart';
-import 'package:focus_flow/features/subscription/presentation/cubit/subscription_state.dart';
 import 'package:focus_flow/features/timer/domain/entities/session_type.dart';
 import 'package:focus_flow/features/timer/presentation/cubit/timer_cubit.dart';
 import 'package:focus_flow/features/timer/presentation/cubit/timer_state.dart';
@@ -28,9 +26,6 @@ class MockSettingsCubit extends MockCubit<SettingsState>
 
 class MockStreakCubit extends MockCubit<StreakState> implements StreakCubit {}
 
-class MockSubscriptionCubit extends MockCubit<SubscriptionState>
-    implements SubscriptionCubit {}
-
 void main() {
   testWidgets('TimerPage renders 25:00 and Start button at initial state',
       (tester) async {
@@ -38,7 +33,6 @@ void main() {
     final statsCubit = MockTodayStatsCubit();
     final settingsCubit = MockSettingsCubit();
     final streakCubit = MockStreakCubit();
-    final subscriptionCubit = MockSubscriptionCubit();
 
     when(() => timerCubit.state).thenReturn(
       const TimerInitial(
@@ -51,8 +45,6 @@ void main() {
     );
     when(() => settingsCubit.state).thenReturn(SettingsState.initial());
     when(() => streakCubit.state).thenReturn(StreakState.initial());
-    when(() => subscriptionCubit.state)
-        .thenReturn(SubscriptionState.initial());
 
     await tester.pumpWidget(
       MaterialApp(
@@ -62,7 +54,6 @@ void main() {
             BlocProvider<TodayStatsCubit>.value(value: statsCubit),
             BlocProvider<SettingsCubit>.value(value: settingsCubit),
             BlocProvider<StreakCubit>.value(value: streakCubit),
-            BlocProvider<SubscriptionCubit>.value(value: subscriptionCubit),
           ],
           child: const TimerPage(),
         ),

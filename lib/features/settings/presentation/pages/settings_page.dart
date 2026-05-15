@@ -9,9 +9,6 @@ import 'package:focus_flow/app/di/injection.dart';
 import 'package:focus_flow/core/services/notification_service.dart';
 import 'package:focus_flow/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:focus_flow/features/settings/presentation/cubit/settings_state.dart';
-import 'package:focus_flow/features/subscription/presentation/cubit/subscription_cubit.dart';
-import 'package:focus_flow/features/subscription/presentation/cubit/subscription_state.dart';
-import 'package:focus_flow/features/subscription/presentation/widgets/pro_gate.dart';
 import 'package:focus_flow/features/timer/domain/usecases/export_sessions_csv.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -23,55 +20,33 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Settings')),
       body: ListView(
         children: [
-          BlocBuilder<SubscriptionCubit, SubscriptionState>(
-            builder: (context, state) {
-              final isPro = state.status.isPro;
-              return ListTile(
-                leading: Icon(
-                  isPro
-                      ? Icons.workspace_premium
-                      : Icons.workspace_premium_outlined,
-                ),
-                title: Text(isPro ? 'Pro active' : 'Upgrade to Pro'),
-                subtitle: Text(
-                  isPro
-                      ? 'All features unlocked'
-                      : 'Custom intervals, full statistics, themes, sounds, streaks',
-                ),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Paywall arrives Day 10')),
-                  );
-                },
-              );
-            },
+          BlocBuilder<SettingsCubit, SettingsState>(
+            builder: (context, state) => ListTile(
+              leading: const Icon(Icons.flag_outlined),
+              title: const Text('Daily focus goal'),
+              subtitle: Text('${state.settings.dailyGoal} sessions'),
+              onTap: () => _showDailyGoalDialog(context),
+            ),
           ),
-          const Divider(),
-          _ProTile(
-            icon: Icons.flag_outlined,
-            title: 'Daily focus goal',
-            subtitleBuilder: (state) => '${state.settings.dailyGoal} sessions',
-            onTap: (context) => _showDailyGoalDialog(context),
+          BlocBuilder<SettingsCubit, SettingsState>(
+            builder: (context, state) => ListTile(
+              leading: const Icon(Icons.notifications_outlined),
+              title: const Text('Daily reminder'),
+              subtitle: Text(state.settings.notificationTime ?? 'Off'),
+              onTap: () => _pickReminderTime(context),
+            ),
           ),
-          _ProTile(
-            icon: Icons.notifications_outlined,
-            title: 'Daily reminder',
-            subtitleBuilder: (state) =>
-                state.settings.notificationTime ?? 'Off',
-            onTap: (context) => _pickReminderTime(context),
-          ),
-          _ProTile(
-            icon: Icons.file_download_outlined,
-            title: 'Export sessions to CSV',
-            subtitleBuilder: (_) => 'Save and share your full history',
-            onTap: (context) => _exportCsv(context),
+          ListTile(
+            leading: const Icon(Icons.file_download_outlined),
+            title: const Text('Export sessions to CSV'),
+            subtitle: const Text('Save and share your full history'),
+            onTap: () => _exportCsv(context),
           ),
           const Divider(),
           const ListTile(
             leading: Icon(Icons.palette_outlined),
             title: Text('Theme'),
-            subtitle: Text('Light  •  more themes in Pro'),
+            subtitle: Text('Light'),
             enabled: false,
           ),
           const Divider(),
@@ -168,37 +143,3 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
-class _ProTile extends StatelessWidget {
-  const _ProTile({
-    required this.icon,
-    required this.title,
-    required this.subtitleBuilder,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String title;
-  final String Function(SettingsState) subtitleBuilder;
-  final void Function(BuildContext) onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return ProGate(
-      locked: ListTile(
-        leading: Icon(icon),
-        title: Text(title),
-        subtitle: const Text('Pro feature — unlock to enable'),
-        trailing: const Icon(Icons.lock_outline, size: 18),
-        enabled: false,
-      ),
-      child: BlocBuilder<SettingsCubit, SettingsState>(
-        builder: (context, state) => ListTile(
-          leading: Icon(icon),
-          title: Text(title),
-          subtitle: Text(subtitleBuilder(state)),
-          onTap: () => onTap(context),
-        ),
-      ),
-    );
-  }
-}
