@@ -1,4 +1,6 @@
-# FocusFlow
+# FocusFlow — subscription branch
+
+> **Branch note:** This branch contains the full IAP integration (Free + Pro tiers via `in_app_purchase`). It is pending payment processor setup — Google Play Console and Apple App Store Connect accounts are not yet configured, so the purchase flow cannot be tested end-to-end. The `main` branch ships a clean free version with all features unlocked. Resume this branch once the payment processor accounts are ready.
 
 [![Build](https://github.com/nourbagh0-star/FocusFlow/actions/workflows/build.yml/badge.svg)](https://github.com/nourbagh0-star/FocusFlow/actions/workflows/build.yml)
 
