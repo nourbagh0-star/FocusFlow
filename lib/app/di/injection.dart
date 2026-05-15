@@ -12,8 +12,10 @@ import 'package:focus_flow/features/settings/domain/usecases/update_app_settings
 import 'package:focus_flow/features/settings/domain/usecases/watch_app_settings.dart';
 import 'package:focus_flow/features/statistics/data/repositories/stats_repository_impl.dart';
 import 'package:focus_flow/features/statistics/domain/repositories/stats_repository.dart';
+import 'package:focus_flow/features/statistics/domain/usecases/get_all_time_stats.dart';
 import 'package:focus_flow/features/statistics/domain/usecases/get_streak.dart';
 import 'package:focus_flow/features/statistics/domain/usecases/get_today_stats.dart';
+import 'package:focus_flow/features/statistics/domain/usecases/get_week_stats.dart';
 import 'package:focus_flow/features/statistics/domain/usecases/watch_streak.dart';
 import 'package:focus_flow/features/statistics/domain/usecases/watch_today_stats.dart';
 import 'package:focus_flow/features/timer/data/datasources/session_local_datasource.dart';
@@ -63,6 +65,8 @@ Future<void> setupDependencies() async {
   sl.registerSingleton<WatchTodayStats>(WatchTodayStats(sl()));
   sl.registerSingleton<GetStreak>(GetStreak(sl()));
   sl.registerSingleton<WatchStreak>(WatchStreak(sl()));
+  sl.registerSingleton<GetWeekStats>(GetWeekStats(sl()));
+  sl.registerSingleton<GetAllTimeStats>(GetAllTimeStats(sl()));
   sl.registerSingleton<GetAppSettings>(GetAppSettings(sl()));
   sl.registerSingleton<UpdateAppSettings>(UpdateAppSettings(sl()));
   sl.registerSingleton<WatchAppSettings>(WatchAppSettings(sl()));

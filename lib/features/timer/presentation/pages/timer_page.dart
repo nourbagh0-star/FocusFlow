@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:focus_flow/app/di/injection.dart';
 import 'package:focus_flow/core/services/audio_service.dart';
@@ -16,15 +15,7 @@ class TimerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('FocusFlow'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () => context.go('/settings'),
-          ),
-        ],
-      ),
+      appBar: AppBar(title: const Text('FocusFlow')),
       body: BlocListener<TimerCubit, TimerState>(
         listenWhen: (prev, curr) =>
             prev is! TimerCompleted && curr is TimerCompleted,

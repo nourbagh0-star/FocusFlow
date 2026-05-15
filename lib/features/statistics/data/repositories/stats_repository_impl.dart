@@ -19,6 +19,12 @@ class StatsRepositoryImpl implements StatsRepository {
   }
 
   @override
+  Future<DailyStats> getStatsForRange(DateTime start, DateTime end) async {
+    final sessions = await _sessions.getInRange(start, end);
+    return _aggregate(start, sessions);
+  }
+
+  @override
   Stream<DailyStats> watchToday() async* {
     yield await getStatsForDay(DateTime.now());
     await for (final _ in _sessions.watchChanges()) {
