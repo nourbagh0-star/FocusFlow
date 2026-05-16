@@ -10,16 +10,19 @@ class StatsState extends Equatable {
     DailyStats? thisWeek,
     DailyStats? allTime,
     Streak? streak,
+    List<DailyStats>? weekDays,
   })  : today = today ?? DailyStats.empty(DateTime(2000)),
         thisWeek = thisWeek ?? DailyStats.empty(DateTime(2000)),
         allTime = allTime ?? DailyStats.empty(DateTime(2000)),
-        streak = streak ?? Streak.empty();
+        streak = streak ?? Streak.empty(),
+        weekDays = weekDays ?? List.generate(7, (i) => DailyStats.empty(DateTime(2000)));
 
   final bool isLoading;
   final DailyStats today;
   final DailyStats thisWeek;
   final DailyStats allTime;
   final Streak streak;
+  final List<DailyStats> weekDays;
 
   StatsState copyWith({
     bool? isLoading,
@@ -27,6 +30,7 @@ class StatsState extends Equatable {
     DailyStats? thisWeek,
     DailyStats? allTime,
     Streak? streak,
+    List<DailyStats>? weekDays,
   }) =>
       StatsState(
         isLoading: isLoading ?? this.isLoading,
@@ -34,8 +38,9 @@ class StatsState extends Equatable {
         thisWeek: thisWeek ?? this.thisWeek,
         allTime: allTime ?? this.allTime,
         streak: streak ?? this.streak,
+        weekDays: weekDays ?? this.weekDays,
       );
 
   @override
-  List<Object?> get props => [isLoading, today, thisWeek, allTime, streak];
+  List<Object?> get props => [isLoading, today, thisWeek, allTime, streak, weekDays];
 }

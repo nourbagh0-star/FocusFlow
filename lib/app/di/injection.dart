@@ -15,6 +15,7 @@ import 'package:focus_flow/features/statistics/domain/repositories/stats_reposit
 import 'package:focus_flow/features/statistics/domain/usecases/get_all_time_stats.dart';
 import 'package:focus_flow/features/statistics/domain/usecases/get_streak.dart';
 import 'package:focus_flow/features/statistics/domain/usecases/get_today_stats.dart';
+import 'package:focus_flow/features/statistics/domain/usecases/get_week_daily_stats.dart';
 import 'package:focus_flow/features/statistics/domain/usecases/get_week_stats.dart';
 import 'package:focus_flow/features/statistics/domain/usecases/watch_streak.dart';
 import 'package:focus_flow/features/statistics/domain/usecases/watch_today_stats.dart';
@@ -67,6 +68,7 @@ Future<void> setupDependencies() async {
   sl.registerSingleton<WatchStreak>(WatchStreak(sl()));
   sl.registerSingleton<GetWeekStats>(GetWeekStats(sl()));
   sl.registerSingleton<GetAllTimeStats>(GetAllTimeStats(sl()));
+  sl.registerSingleton<GetWeekDailyStats>(GetWeekDailyStats(sl()));
   sl.registerSingleton<GetAppSettings>(GetAppSettings(sl()));
   sl.registerSingleton<UpdateAppSettings>(UpdateAppSettings(sl()));
   sl.registerSingleton<WatchAppSettings>(WatchAppSettings(sl()));

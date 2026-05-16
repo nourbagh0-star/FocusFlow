@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,7 +24,7 @@ class StatsPage extends StatelessWidget {
             children: [
               _TodayCard(stats: state.today),
               const SizedBox(height: 12),
-              _WeekCard(stats: state.thisWeek),
+              _WeekChartCard(days: state.weekDays, weekTotal: state.thisWeek),
               const SizedBox(height: 12),
               IntrinsicHeight(
                 child: Row(
@@ -72,18 +73,88 @@ class _TodayCard extends StatelessWidget {
   }
 }
 
-class _WeekCard extends StatelessWidget {
-  const _WeekCard({required this.stats});
+class _WeekChartCard extends StatelessWidget {
+  const _WeekChartCard({required this.days, required this.weekTotal});
 
-  final DailyStats stats;
+  final List<DailyStats> days;
+  final DailyStats weekTotal;
 
   @override
   Widget build(BuildContext context) {
     return _StatsCard(
       label: 'This week',
-      child: _StatCell(
-        value: _formatFocusTime(stats.totalFocusTime),
-        label: 'focused',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 120, child: _WeekBarChart(days: days)),
+          const SizedBox(height: 12),
+          _StatCell(
+            value: _formatFocusTime(weekTotal.totalFocusTime),
+            label: 'focused',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _WeekBarChart extends StatelessWidget {
+  const _WeekBarChart({required this.days});
+
+  final List<DailyStats> days;
+
+  static const _labels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+
+  @override
+  Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme.primary;
+    final todayIndex = DateTime.now().weekday - 1;
+
+    final maxSessions = days.fold(0, (m, d) => d.completedWorkSessions > m ? d.completedWorkSessions : m);
+    final maxY = (maxSessions + 1).clamp(4, double.infinity).toDouble();
+
+    return BarChart(
+      BarChartData(
+        maxY: maxY,
+        barTouchData: BarTouchData(enabled: false),
+        titlesData: FlTitlesData(
+          leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: (value, meta) {
+                final i = value.toInt();
+                return Text(
+                  _labels[i],
+                  style: Theme.of(context).textTheme.labelSmall,
+                );
+              },
+            ),
+          ),
+        ),
+        gridData: const FlGridData(show: false),
+        borderData: FlBorderData(show: false),
+        barGroups: List.generate(7, (i) {
+          final sessions = days[i].completedWorkSessions.toDouble();
+          final barColor = i == todayIndex
+              ? color
+              : i < todayIndex
+                  ? color.withValues(alpha: 0.35)
+                  : color.withValues(alpha: 0.12);
+          return BarChartGroupData(
+            x: i,
+            barRods: [
+              BarChartRodData(
+                toY: sessions > 0 ? sessions : (i <= todayIndex ? 0 : 0),
+                color: barColor,
+                width: 18,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }

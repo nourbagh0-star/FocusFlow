@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:focus_flow/features/statistics/domain/usecases/get_all_time_stats.dart';
+import 'package:focus_flow/features/statistics/domain/usecases/get_week_daily_stats.dart';
 import 'package:focus_flow/features/statistics/domain/usecases/get_week_stats.dart';
 import 'package:focus_flow/features/statistics/domain/usecases/watch_streak.dart';
 import 'package:focus_flow/features/statistics/domain/usecases/watch_today_stats.dart';
@@ -14,6 +15,7 @@ class StatsCubit extends Cubit<StatsState> {
     required this.getWeekStats,
     required this.getAllTimeStats,
     required this.watchStreak,
+    required this.getWeekDailyStats,
   }) : super(StatsState()) {
     _init();
   }
@@ -22,6 +24,7 @@ class StatsCubit extends Cubit<StatsState> {
   final GetWeekStats getWeekStats;
   final GetAllTimeStats getAllTimeStats;
   final WatchStreak watchStreak;
+  final GetWeekDailyStats getWeekDailyStats;
 
   StreamSubscription? _todaySub;
   StreamSubscription? _streakSub;
@@ -31,6 +34,7 @@ class StatsCubit extends Cubit<StatsState> {
     final streak = await watchStreak().first;
     final week = await getWeekStats();
     final allTime = await getAllTimeStats();
+    final days = await getWeekDailyStats();
 
     if (isClosed) return;
     emit(StatsState(
@@ -39,6 +43,7 @@ class StatsCubit extends Cubit<StatsState> {
       thisWeek: week,
       allTime: allTime,
       streak: streak,
+      weekDays: days,
     ));
 
     _todaySub = watchTodayStats().listen((today) {
@@ -53,7 +58,8 @@ class StatsCubit extends Cubit<StatsState> {
   Future<void> _reloadRange() async {
     final week = await getWeekStats();
     final allTime = await getAllTimeStats();
-    if (!isClosed) emit(state.copyWith(thisWeek: week, allTime: allTime));
+    final days = await getWeekDailyStats();
+    if (!isClosed) emit(state.copyWith(thisWeek: week, allTime: allTime, weekDays: days));
   }
 
   @override
